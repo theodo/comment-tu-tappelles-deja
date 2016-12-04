@@ -1,0 +1,44 @@
+html {
+  padding: 5%;
+  background-color: white;
+}
+
+#game {
+  text-align: center;
+}
+
+.img-square {
+  margin: auto;
+  width: 140px;
+  height: 140px;
+  overflow: hidden;
+}
+
+#theodoerImg {
+  position: relative;
+  max-width: 100%;
+  top: -100%;
+}
+
+#card, #quality {
+  display: inline-block;
+  vertical-align: top;
+  width: 49%;
+}
+
+#quality {
+  text-align: left;
+}
+
+#quality div {
+  font-size: 1.2em;
+  color: gray;
+}
+
+#theodoerName {
+  font-size: 3em;
+}
+
+#quality .selected {
+  color: black;
+}
