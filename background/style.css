@@ -42,3 +42,13 @@ html {
 #quality .selected {
   color: black;
 }
+
+#game a {
+  color: blue;
+}
+
+#game ul {
+  max-width: 70%;
+  text-align: left;
+  margin: auto;
+}
