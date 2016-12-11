@@ -197,9 +197,11 @@ function getTodaysCardsList() {
   // Save new list for future reference
   saveCardsList(newIds);
 
+  newIds = shuffleCards(newIds);
   // Then, get cards due today
   var sessionCardIds = [];
-  for(var theodoerId of newIds) {
+  for(var i=1; i<newIds.length; i++) {
+    var theodoerId = newIds[i];
     var theodoerCard = getCard(theodoerId);
     if(isDue(theodoerCard)) {
       sessionCardIds.push(theodoerId);
@@ -207,8 +209,8 @@ function getTodaysCardsList() {
   }
 
   // Add new cards if not enough
-  newIds = shuffleCards(newIds);
-  for(var theodoerId of newIds) {
+  for(var i=1; i<newIds.length; i++) {
+    var theodoerId = newIds[i];
     if(sessionCardIds.indexOf(theodoerId) === -1
     && sessionCardIds.length < MAX_NUMBER_OF_CARDS
     && typeof getCard(theodoerId).dueDate === 'undefined') {
