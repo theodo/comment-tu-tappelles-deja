@@ -1,5 +1,5 @@
 ### Installation
-Dans Chrome,
+Télécharger ce repository, puis dans Chrome,
 * aller à chrome://extensions/
 * cocher 'Mode développeur'
 * Cliquer sur 'Charger l'extension non empaquetée'
