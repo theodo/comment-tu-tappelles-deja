@@ -99,6 +99,14 @@ function waitForQuality() {
       case 40:
         q = q === 0 ? 0 : q-1;
         break;
+      case 48:
+      case 49:
+      case 50:
+      case 51:
+      case 52:
+      case 53:
+        wait.resolve(e.which-48);
+        return;
     }
     $("#q"+q).toggleClass("selected");
   });
