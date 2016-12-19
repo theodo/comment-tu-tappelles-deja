@@ -5,7 +5,9 @@
   "description": "Mémorisez les prénoms de vos collègues",
   "permissions": [
     "tabs",
-    "http://www.theodo.fr/fr/theodo/les-theodoers"
+    "http://www.theodo.fr/fr/theodo/les-theodoers",
+    "alarms",
+    "storage"
   ],
   "background": {
     "persistent": false,
@@ -13,7 +15,7 @@
   },
   "browser_action": {
     "default_title": "Comment tu t'appelles déjà ?",
-    "default_icon": "ic_person_pin_circle_black_18dp_2x.png"
+    "default_icon": "icons/ic_person_pin_circle_black_18dp_2x.png"
   },
   "update_url": "https://raw.githubusercontent.com/giregk/comment-tu-tappelles-deja/master/updates.xml"
 }
