@@ -1,4 +1,4 @@
-### Installation
+### Installation en mode développeur
 Télécharger ce repository, puis dans Chrome,
 * aller à chrome://extensions/
 * cocher 'Mode développeur'

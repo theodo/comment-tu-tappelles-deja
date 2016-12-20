@@ -7,9 +7,9 @@ chrome.browserAction.onClicked.addListener(function() {
   };
 
   function injectScripts(tab) {
-    chrome.tabs.insertCSS(tab.id, {file: "background/style.css"});
-    chrome.tabs.executeScript(tab.id, {file: "background/jquery-3.1.1.min.js"}, function() {
-      chrome.tabs.executeScript(tab.id, {file: "background/moment.min.js"}, function() {
+    chrome.tabs.insertCSS(tab.id, {file: "/static/style.css"});
+    chrome.tabs.executeScript(tab.id, {file: "/lib/jquery-3.1.1.min.js"}, function() {
+      chrome.tabs.executeScript(tab.id, {file: "/lib/moment.min.js"}, function() {
         chrome.tabs.executeScript(tab.id, {file: "background/learnNames.js"});
       });
     });
