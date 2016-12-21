@@ -332,13 +332,14 @@ function play() {
           updateNumberOfCards(-1);
           updateTotalNumberOfCards(-1);
         } else {
+          // STEP 4
+          card.EF = getNewEF(card.EF, quality);
+
           // STEP 5
           if(quality < 3) {
             card.n = 1;
-          } else {
-            // STEP 4
-            card.EF = getNewEF(card.EF, quality);
           }
+
           // STEP 6
           if(quality >= 4) {
             var interval = getInterval(card.n, card.EF);
