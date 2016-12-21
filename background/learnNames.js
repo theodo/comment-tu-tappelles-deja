@@ -28,7 +28,7 @@ function displayGame() {
           <li>Each day, a new set of theodoer is presented to you based on your last session.</li>\
           <li>The game ends when you have answered at least 4 for each theodoer that is presented to you.</li>\
         </ul>\
-      <p><span id='nbCards'></span> cards remaining for today.</p>\
+      <p><span id='nbCards'></span> cards remaining for today. <span id='totalNbCards'></span> remaining on the whole.</p>\
       <br/><br/>\
       <span id='card'>\
         <div class='img-square'>\
@@ -38,6 +38,7 @@ function displayGame() {
       </span>\
       <span id='quality'>\
         <h4>How well did you remember that name ?</h4>\
+        <button id='doNotShow' disabled='disabled'>No need to ever show this person again</button>\
         <div id='q5'>5 - Perfect Response</div>\
         <div id='q4'>4 - Correct response after a hesitation</div>\
         <div id='q3'>3 - Correct response recalled with serious difficulty</div>\
@@ -67,8 +68,17 @@ function updateNumberOfCards(n) {
   }
 }
 
+function updateTotalNumberOfCards(n) {
+  if(n === -1) {
+    $("#totalNbCards").text($("#totalNbCards").text()-1);
+  } else {
+    $("#totalNbCards").text(n);
+  }
+}
+
 function showEndOfGame() {
-  $("#game").html("<p>Good job ! Come back tomorrow !<p>");
+  var totalNbCards = $("#totalNbCards").text();
+  $("#game").html("<p>Good job ! Come back tomorrow ! You still have " + totalNbCards + " names to learn :)<p>");
 }
 
 function waitForAnswer() {
@@ -108,6 +118,12 @@ function waitForQuality() {
         wait.resolve(e.which-48);
         return;
     }
+    $("#q"+q).toggleClass("selected");
+  });
+  $("#doNotShow")
+  .prop('disabled', false)
+  .click(function() {
+    wait.resolve('doNotShow');
     $("#q"+q).toggleClass("selected");
   });
   return wait;
@@ -206,15 +222,21 @@ function getTodaysCardsList() {
   saveCardsList(newIds);
 
   newIds = shuffleCards(newIds);
+  totalNbCardsRemaining = 0;
   // Then, get cards due today
   var sessionCardIds = [];
   for(var i=1; i<newIds.length; i++) {
     var theodoerId = newIds[i];
     var theodoerCard = getCard(theodoerId);
-    if(isDue(theodoerCard)) {
+    if(isDue(theodoerCard) && !theodoerCard.doNotShow) {
       sessionCardIds.push(theodoerId);
     }
+
+    if(!theodoerCard.doNotShow) {
+      totalNbCardsRemaining ++;
+    }
   }
+  updateTotalNumberOfCards(totalNbCardsRemaining);
 
   // Add new cards if not enough
   for(var i=1; i<newIds.length; i++) {
@@ -284,7 +306,7 @@ function play() {
       for(var j = 0; j < todaysCardsList.length; j++) {
         var cardId = todaysCardsList[j];
         var card = getCard(cardId);
-        if(isDue(card)) {
+        if(isDue(card) && !card.doNotShow) {
           newCardsList.push(cardId);
         }
       }
@@ -302,22 +324,30 @@ function play() {
     showCard(card);
     waitForAnswer().then(function() {
       showName();
+
       waitForQuality().then(function(quality) {
-        // STEP 5
-        if(quality < 3) {
-          card.n = 1;
-        } else {
-          // STEP 4
-          card.EF = getNewEF(card.EF, quality);
-        }
-        // STEP 6
-        if(quality >= 4) {
-          var interval = getInterval(card.n, card.EF);
-          card.dueDate = moment().startOf("day").add(interval, "days");
-          card.n++;
+        $("#doNotShow").unbind().prop('disabled', true);
+        if(quality === 'doNotShow') {
+          card.doNotShow = true;
           updateNumberOfCards(-1);
+          updateTotalNumberOfCards(-1);
         } else {
-          iterate = true;
+          // STEP 5
+          if(quality < 3) {
+            card.n = 1;
+          } else {
+            // STEP 4
+            card.EF = getNewEF(card.EF, quality);
+          }
+          // STEP 6
+          if(quality >= 4) {
+            var interval = getInterval(card.n, card.EF);
+            card.dueDate = moment().startOf("day").add(interval, "days");
+            card.n++;
+            updateNumberOfCards(-1);
+          } else {
+            iterate = true;
+          }
         }
 
         saveCard(cardId, card);
