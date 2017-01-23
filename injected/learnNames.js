@@ -76,9 +76,9 @@ function updateTotalNumberOfCards(n) {
   }
 }
 
-function showEndOfGame() {
+function showEndOfGame(nbNamesRemembered, sessionNbCards) {
   var totalNbCards = $("#totalNbCards").text();
-  $("#game").html("<p>Good job ! Come back tomorrow ! You still have " + totalNbCards + " names to learn :)<p>");
+  $("#game").html("<p>Good job !</p><p>You got "+nbNamesRemembered+"/"+sessionNbCards+" ("+(nbNamesRemembered/sessionNbCards*100)+"%) of scores &ge; 4 today.</p><p>Come back tomorrow ! You still have " + totalNbCards + " names to learn :)<p>");
 }
 
 function waitForAnswer() {
@@ -297,11 +297,15 @@ STEP 6
 function play() {
   displayGame();
   var todaysCardsList = getTodaysCardsList();
-  updateNumberOfCards(todaysCardsList.length);
+  var sessionNbCards = todaysCardsList.length;
+  var nbNamesRemembered = 0;
+  var endOfFirstTry = false;
+  updateNumberOfCards(sessionNbCards);
   var synchroniser = $.Deferred();
   synchroniser.notify(0, todaysCardsList);
   synchroniser.progress(function(i, todaysCardsList) {
     if(i === todaysCardsList.length) {
+      endOfFirstTry = true;
       var newCardsList = [];
       for(var j = 0; j < todaysCardsList.length; j++) {
         var cardId = todaysCardsList[j];
@@ -315,7 +319,7 @@ function play() {
     }
 
     if(todaysCardsList.length === 0) {
-      showEndOfGame();
+      showEndOfGame(nbNamesRemembered, sessionNbCards);
       return;
     }
 
@@ -346,6 +350,9 @@ function play() {
             card.dueDate = moment().startOf("day").add(interval, "days");
             card.n++;
             updateNumberOfCards(-1);
+            if(!endOfFirstTry) {
+              nbNamesRemembered++;
+            }
           } else {
             iterate = true;
           }
