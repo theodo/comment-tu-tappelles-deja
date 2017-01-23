@@ -7,10 +7,10 @@ var action = function() {
   };
 
   function injectScripts(tab) {
-    chrome.tabs.insertCSS(tab.id, {file: "/static/style.css"});
+    chrome.tabs.insertCSS(tab.id, {file: "/injected/style.css"});
     chrome.tabs.executeScript(tab.id, {file: "/lib/jquery-3.1.1.min.js"}, function() {
       chrome.tabs.executeScript(tab.id, {file: "/lib/moment.min.js"}, function() {
-        chrome.tabs.executeScript(tab.id, {file: "background/learnNames.js"});
+        chrome.tabs.executeScript(tab.id, {file: "/injected/learnNames.js"});
       });
     });
   };

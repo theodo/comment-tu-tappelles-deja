@@ -12,7 +12,7 @@
   ],
   "background": {
     "persistent": false,
-    "scripts": ["background/backgroundPage.js"]
+    "scripts": ["backgroundScript.js"]
   },
   "browser_action": {
     "default_title": "Comment tu t'appelles déjà ?",
