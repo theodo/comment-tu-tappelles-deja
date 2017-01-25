@@ -1,10 +1,27 @@
 html {
-  padding: 5%;
-  background-color: white;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 20px;
+  background-color: #e6ddde;
+}
+
+#game h3, #game h4 {
+  font-family: ubuntu;
+  color: #62484c;
+}
+
+p, ul > li {
+  font-family: ubuntu;
+  color: #443235;
+  font-size: 1.2em;
 }
 
 #game {
   text-align: center;
+}
+
+ul {
+  max-width: 500px;
 }
 
 .img-square {
@@ -23,16 +40,22 @@ html {
 #card, #quality {
   display: inline-block;
   vertical-align: top;
-  width: 49%;
+}
+
+#card {
+  width: 39%;
 }
 
 #quality {
   text-align: left;
+  width: 60%;
 }
 
 #quality div {
   font-size: 1.2em;
   color: gray;
+  font-family: ubuntu;
+  margin-bottom: 0.3em;
 }
 
 #theodoerName {
@@ -40,7 +63,7 @@ html {
 }
 
 #quality .selected {
-  color: black;
+  color: #443235;
 }
 
 #game a {
@@ -48,7 +71,15 @@ html {
 }
 
 #game ul {
-  max-width: 70%;
+  max-width: 700px;
   text-align: left;
   margin: auto;
+}
+
+#game ul > li {
+  margin-bottom: 0.5em;
+}
+
+#nbCards, #totalNbCards {
+  font-weight: bold;
 }
