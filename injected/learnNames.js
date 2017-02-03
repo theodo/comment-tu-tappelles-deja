@@ -335,6 +335,9 @@ function play() {
           card.doNotShow = true;
           updateNumberOfCards(-1);
           updateTotalNumberOfCards(-1);
+          if(!endOfFirstTry) {
+            nbNamesRemembered++;
+          }
         } else {
           // STEP 4
           card.EF = getNewEF(card.EF, quality);
