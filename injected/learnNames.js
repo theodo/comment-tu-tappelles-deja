@@ -13,8 +13,8 @@ function getCurrentTeam() {
 }
 
 function displayGame() {
-  $("body").css('opacity', '0');
-  $("body").before("\
+  $("body").hide();
+  $("body").after("\
     <div id='game'>\
       <p>This game uses a scientific learning algorithm that you can find <a href='https://www.supermemo.com/english/ol/sm2.htm'>here</a>.</p>\
       <h3>How to play:</h3>\
