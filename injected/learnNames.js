@@ -52,12 +52,12 @@ function displayGame() {
 
 function showCard(card) {
   $("#theodoerImg").attr("src", card.imgUrl);
-  $("#theodoerName").hide();
+  $("#theodoerName").css("visibility", "hidden");
   $("#theodoerName").text(card.name);
 }
 
 function showName() {
-  $("#theodoerName").show();
+  $("#theodoerName").css("visibility", "visible");
 }
 
 function updateNumberOfCards(n) {
@@ -205,8 +205,8 @@ function getTodaysCardsList() {
     }
   }
 
-  // Create cards for new theodoers
   for(var theodoer of currentTeam) {
+    // Create cards for new theodoers
     if(newIds.indexOf(theodoer.id) === -1) {
       saveCard(theodoer.id, {
         imgUrl: theodoer.imgUrl,
@@ -216,6 +216,11 @@ function getTodaysCardsList() {
       });
       newIds.push(theodoer.id);
     }
+
+    // Update imgUrl if needed
+    var card = getCard(theodoer.id);
+    card.imgUrl = theodoer.imgUrl
+    saveCard(theodoer.id, card);
   }
 
   // Save new list for future reference
@@ -302,7 +307,6 @@ function play() {
   var endOfFirstTry = false;
   updateNumberOfCards(sessionNbCards);
   var synchroniser = $.Deferred();
-  synchroniser.notify(0, todaysCardsList);
   synchroniser.progress(function(i, todaysCardsList) {
     if(i === todaysCardsList.length) {
       endOfFirstTry = true;
@@ -366,6 +370,7 @@ function play() {
       });
     });
   });
+  synchroniser.notify(0, todaysCardsList);
 }
 
 ////////////////////////////////////////////
