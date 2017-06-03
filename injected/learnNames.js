@@ -60,6 +60,12 @@ function showName() {
   $("#theodoerName").css("visibility", "visible");
 }
 
+function unselectAll() {
+  for (q=0; q<=5; q++) {
+    $("#q"+q).removeClass("selected");
+  }
+}
+
 function updateNumberOfCards(n) {
   if(n === -1) {
     $("#nbCards").text($("#nbCards").text()-1);
@@ -95,16 +101,16 @@ function waitForAnswer() {
 function waitForQuality() {
   var wait = $.Deferred();
   var q = 3;
-  $("#q"+q).toggleClass("selected");
+  $("#q"+q).addClass("selected");
   $("html").unbind("keydown");
   $("html").keydown(function(e) {
-    $("#q"+q).toggleClass("selected");
+    unselectAll();
+    var resolve = false;
     switch(e.which) {
       case 13:
       case 32:
+        resolve = true;
         break;
-        wait.resolve(q);
-        return;
       case 38:
         q = q === 5 ? 5 : q+1;
         break;
@@ -117,16 +123,27 @@ function waitForQuality() {
       case 51:
       case 52:
       case 53:
-        wait.resolve(e.which-48);
-        return;
+        q = e.which - 48;
+        resolve = true;
+        break;
+      case 96:
+      case 97:
+      case 98:
+      case 99:
+      case 100:
+      case 101:
+        q = e.which - 96;
+        resolve = true;
+        break;
     }
-    $("#q"+q).toggleClass("selected");
+    $("#q"+q).addClass("selected");
+    if(resolve)
+      wait.resolve(q);
   });
   $("#doNotShow")
   .prop('disabled', false)
   .click(function() {
     wait.resolve('doNotShow');
-    $("#q"+q).toggleClass("selected");
   });
   return wait;
 }
@@ -336,6 +353,7 @@ function play() {
       showName();
 
       waitForQuality().then(function(quality) {
+        unselectAll();
         $("#doNotShow").unbind().prop('disabled', true);
         if(quality === 'doNotShow') {
           card.doNotShow = true;
