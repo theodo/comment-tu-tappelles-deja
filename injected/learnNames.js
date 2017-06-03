@@ -20,11 +20,11 @@ function displayGame() {
       <h3>How to play:</h3>\
         <ul>\
           <li>Think about the name of the theodoer you see.</li>\
-          <li>Press <strong>enter</strong> to reveal his/her real name.</li>\
+          <li>Press <strong>enter</strong> or <strong>space</strong> to reveal his/her real name.</li>\
           <li>Using the arrow <strong>up</strong> and <strong>down</strong> keys, select how well you remembered his/her name <em>this time</em>\
           i.e. do not select the quality of your long-term memory but the quality of your short term one.\
           The algorithm is designed to take these effects into account.</li>\
-          <li>Press <strong>enter</strong> to validate your choice and go to the next theodoer.</li>\
+          <li>Press <strong>enter</strong> or <strong>space</strong> to validate your choice and go to the next theodoer.</li>\
           <li>Each day, a new set of theodoer is presented to you based on your last session.</li>\
           <li>The game ends when you have answered at least 4 for each theodoer that is presented to you.</li>\
         </ul>\
