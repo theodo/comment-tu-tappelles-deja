@@ -85,7 +85,7 @@ function waitForAnswer() {
   var wait = $.Deferred();
   $("html").unbind("keydown");
   $("html").keydown(function(e) {
-    if(e.which === 13) {
+    if(e.which === 13 || e.which === 32) {
       wait.resolve();
     }
   });
@@ -101,6 +101,8 @@ function waitForQuality() {
     $("#q"+q).toggleClass("selected");
     switch(e.which) {
       case 13:
+      case 32:
+        break;
         wait.resolve(q);
         return;
       case 38:
