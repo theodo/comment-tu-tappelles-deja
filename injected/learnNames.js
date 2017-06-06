@@ -20,11 +20,11 @@ function displayGame() {
       <h3>How to play:</h3>\
         <ul>\
           <li>Think about the name of the theodoer you see.</li>\
-          <li>Press <strong>enter</strong> to reveal his/her real name.</li>\
+          <li>Press <strong>enter</strong> or <strong>space</strong> to reveal his/her real name.</li>\
           <li>Using the arrow <strong>up</strong> and <strong>down</strong> keys, select how well you remembered his/her name <em>this time</em>\
           i.e. do not select the quality of your long-term memory but the quality of your short term one.\
           The algorithm is designed to take these effects into account.</li>\
-          <li>Press <strong>enter</strong> to validate your choice and go to the next theodoer.</li>\
+          <li>Press <strong>enter</strong> or <strong>space</strong> to validate your choice and go to the next theodoer.</li>\
           <li>Each day, a new set of theodoer is presented to you based on your last session.</li>\
           <li>The game ends when you have answered at least 4 for each theodoer that is presented to you.</li>\
         </ul>\
@@ -60,6 +60,12 @@ function showName() {
   $("#theodoerName").css("visibility", "visible");
 }
 
+function unselectAll() {
+  for (q=0; q<=5; q++) {
+    $("#q"+q).removeClass("selected");
+  }
+}
+
 function updateNumberOfCards(n) {
   if(n === -1) {
     $("#nbCards").text($("#nbCards").text()-1);
@@ -85,7 +91,7 @@ function waitForAnswer() {
   var wait = $.Deferred();
   $("html").unbind("keydown");
   $("html").keydown(function(e) {
-    if(e.which === 13) {
+    if(e.which === 13 || e.which === 32) {
       wait.resolve();
     }
   });
@@ -95,14 +101,16 @@ function waitForAnswer() {
 function waitForQuality() {
   var wait = $.Deferred();
   var q = 3;
-  $("#q"+q).toggleClass("selected");
+  $("#q"+q).addClass("selected");
   $("html").unbind("keydown");
   $("html").keydown(function(e) {
-    $("#q"+q).toggleClass("selected");
+    unselectAll();
+    var resolve = false;
     switch(e.which) {
       case 13:
-        wait.resolve(q);
-        return;
+      case 32:
+        resolve = true;
+        break;
       case 38:
         q = q === 5 ? 5 : q+1;
         break;
@@ -115,16 +123,27 @@ function waitForQuality() {
       case 51:
       case 52:
       case 53:
-        wait.resolve(e.which-48);
-        return;
+        q = e.which - 48;
+        resolve = true;
+        break;
+      case 96:
+      case 97:
+      case 98:
+      case 99:
+      case 100:
+      case 101:
+        q = e.which - 96;
+        resolve = true;
+        break;
     }
-    $("#q"+q).toggleClass("selected");
+    $("#q"+q).addClass("selected");
+    if(resolve)
+      wait.resolve(q);
   });
   $("#doNotShow")
   .prop('disabled', false)
   .click(function() {
     wait.resolve('doNotShow');
-    $("#q"+q).toggleClass("selected");
   });
   return wait;
 }
@@ -334,6 +353,7 @@ function play() {
       showName();
 
       waitForQuality().then(function(quality) {
+        unselectAll();
         $("#doNotShow").unbind().prop('disabled', true);
         if(quality === 'doNotShow') {
           card.doNotShow = true;
