@@ -1,6 +1,6 @@
 {
   "name": "Comment tu t'appelles déjà ?",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "manifest_version": 2,
   "description": "Mémorisez les prénoms des theodoers",
   "permissions": [
