@@ -1,63 +1,15 @@
 var MAX_NUMBER_OF_CARDS = 20;
 
-function getCurrentTeam() {
-  var currentTeam = [];
-  $("#team-people .img-square-list .isotope-item").each(function() {
-    var imgUrl = $(".img-square img", this).attr("src");
-    // this splits the url around '/', retrieves name.png, splits around '.', retrieves name
-    var id = imgUrl.split("/").pop().split(".")[0];
-    var name = $("p", this).text();
-    currentTeam.push({imgUrl: imgUrl, id: id, name: name});
-  });
-  return currentTeam;
-}
-
-function displayGame() {
-  $("body").hide();
-  $("body").after("\
-    <div id='game'>\
-      <p>This game uses a scientific learning algorithm that you can find <a href='https://www.supermemo.com/english/ol/sm2.htm'>here</a>.</p>\
-      <h3>How to play:</h3>\
-        <ul>\
-          <li>Think about the name of the theodoer you see.</li>\
-          <li>Press <strong>enter</strong> or <strong>space</strong> to reveal his/her real name.</li>\
-          <li>Using the arrow <strong>up</strong> and <strong>down</strong> keys, select how well you remembered his/her name <em>this time</em>\
-          i.e. do not select the quality of your long-term memory but the quality of your short term one.\
-          The algorithm is designed to take these effects into account.</li>\
-          <li>Press <strong>enter</strong> or <strong>space</strong> to validate your choice and go to the next theodoer.</li>\
-          <li>Each day, a new set of theodoer is presented to you based on your last session.</li>\
-          <li>The game ends when you have answered at least 4 for each theodoer that is presented to you.</li>\
-        </ul>\
-      <p><span id='nbCards'></span> cards remaining for today. <span id='totalNbCards'></span> remaining on the whole.</p>\
-      <br/><br/>\
-      <span id='card'>\
-        <div class='img-square'>\
-          <img id='theodoerImg'/>\
-        </div>\
-        <p id='theodoerName'></p>\
-      </span>\
-      <span id='quality'>\
-        <h4>How well did you remember that name ?</h4>\
-        <button id='doNotShow' disabled='disabled'>No need to ever show this person again</button>\
-        <div id='q5'>5 - Perfect Response</div>\
-        <div id='q4'>4 - Correct response after a hesitation</div>\
-        <div id='q3'>3 - Correct response recalled with serious difficulty</div>\
-        <div id='q2'>2 - Incorrect response; where the correct one seemed easy to recall</div>\
-        <div id='q1'>1 - Incorrect response; the correct one remembered</div>\
-        <div id='q0'>0 - Complete blackout</div>\
-      </span>\
-    </div>\
-  ");
-}
-
 function showCard(card) {
   $("#theodoerImg").attr("src", card.imgUrl);
-  $("#theodoerName").css("visibility", "hidden");
+  $("#theodoerNamePlaceholder").show();
+  $("#theodoerName").hide();
   $("#theodoerName").text(card.name);
 }
 
 function showName() {
-  $("#theodoerName").css("visibility", "visible");
+  $("#theodoerNamePlaceholder").hide();
+  $("#theodoerName").show();
 }
 
 function unselectAll() {
@@ -207,8 +159,7 @@ function isDue(card) {
   return moment().startOf("day") >= card.dueDate;
 }
 
-function getTodaysCardsList() {
-  var currentTeam = getCurrentTeam();
+function getTodaysCardsList(currentTeam) {
   var previousIds = getPreviousCardsList();
   var newIds = [];
 
@@ -318,9 +269,8 @@ STEP 6
   in the quality assessment.
   Continue the repetitions until all of these items score at least four.
 */
-function play() {
-  displayGame();
-  var todaysCardsList = getTodaysCardsList();
+function play(currentTeam) {
+  var todaysCardsList = getTodaysCardsList(currentTeam);
   var sessionNbCards = todaysCardsList.length;
   var nbNamesRemembered = 0;
   var endOfFirstTry = false;
@@ -392,7 +342,3 @@ function play() {
   });
   synchroniser.notify(0, todaysCardsList);
 }
-
-////////////////////////////////////////////
-play();
-////////////////////////////////////////////
