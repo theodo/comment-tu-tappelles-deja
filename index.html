@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comment tu t'appelles déjà ?</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="lib/jquery-3.1.1.min.js"></script>
+    <script src="lib/trello-api.js"></script>
+    <script src="lib/moment.min.js"></script>
+    <script src="learnNames.js"></script>
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+      <h1>Comment tu t'appelles déjà ?</h1>
+      <div id='game'>
+        <p>This game uses a scientific learning algorithm that you can find <a href='https://www.supermemo.com/english/ol/sm2.htm'>here</a>.</p>
+        <h3>How to play:</h3>
+          <ul>
+            <li>Think about the name of the m33 you see.</li>
+            <li>Press <strong>enter</strong> or <strong>space</strong> to reveal his/her real name.</li>
+            <li>Using the arrow <strong>up</strong> and <strong>down</strong> keys, select how well you remembered his/her name <em>this time</em>
+            i.e. do not select the quality of your long-term memory but the quality of your short term one.</li>
+            <li>Press <strong>enter</strong> or <strong>space</strong> to validate your choice and go to the next m33.</li>
+            <li>Each day, a new set of m33 is presented to you based on your last session.</li>
+            <li>The game ends when you have answered at least 4 for each m33 that is presented to you.</li>
+          </ul>
+        <p><span id='nbCards'></span> cards remaining for today. <span id='totalNbCards'></span> remaining on the whole.</p>
+        <br/>
+        <span id='card'>
+          <div class='img-square'>
+            <img id='theodoerImg'/>
+          </div>
+          <p id='theodoerName'></p>
+          <p id='theodoerNamePlaceholder'>Press enter to see</p>
+        </span>
+        <span id='quality'>
+          <h3>How well did you remember that name this time ?</h4>
+          <button id='doNotShow' disabled='disabled'>No need to ever show this person again</button>
+          <div id='q5'>5 - Perfect Response</div>
+          <div id='q4'>4 - Correct response after a hesitation</div>
+          <div id='q3'>3 - Correct response recalled with serious difficulty</div>
+          <div id='q2'>2 - Incorrect response; where the correct one seemed easy to recall</div>
+          <div id='q1'>1 - Incorrect response; the correct one remembered</div>
+          <div id='q0'>0 - Complete blackout</div>
+        </span>
+      </div>
+  </body>
+</html>

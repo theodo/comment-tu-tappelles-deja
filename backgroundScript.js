@@ -2,20 +2,11 @@ var action = function() {
   chrome.browserAction.setIcon({path: 'icons/ic_person_pin_circle_black_18dp_2x.png'});
   localStorage.setItem("sessionDoneAt", new Date().getDate());
 
-  var theodoTeamPage = {
-    url: "http://www.theodo.fr/fr/theodo/les-theodoers"
+  var gameUrl = {
+    url: "https://theodo.github.io/comment-tu-tappelles-deja/"
   };
 
-  function injectScripts(tab) {
-    chrome.tabs.insertCSS(tab.id, {file: "/injected/style.css"});
-    chrome.tabs.executeScript(tab.id, {file: "/lib/jquery-3.1.1.min.js"}, function() {
-      chrome.tabs.executeScript(tab.id, {file: "/lib/moment.min.js"}, function() {
-        chrome.tabs.executeScript(tab.id, {file: "/injected/learnNames.js"});
-      });
-    });
-  };
-
-  chrome.tabs.create(theodoTeamPage, injectScripts);
+  chrome.tabs.create(gameUrl);
 }
 
 chrome.browserAction.onClicked.addListener(action);
