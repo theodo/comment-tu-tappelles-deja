@@ -1,3 +1,5 @@
+A question ? ask GiregK
+
 In this repository, there is a chrome extension (manifest.json + backgroundScript.js + icons) and a GitHub page (the game itself).
 
 ### To install the extension for development purposes
